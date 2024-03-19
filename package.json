@@ -1,0 +1,27 @@
+{
+  "name": "exgraph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@excaliburjs/excalibur-pathfinding": "^0.29.0-alpha.1",
+    "@peasy-lib/peasy-assets": "^0.2.6",
+    "@peasy-lib/peasy-input": "^0.2.0",
+    "@peasy-lib/peasy-ui": "^0.9.58",
+    "excalibur": "^0.30.0-alpha.977"
+  },
+  "devDependencies": {
+    "json": "^11.0.0",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6"
+  }
+}
