@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "@excaliburjs/excalibur-pathfinding": "^0.29.0-alpha.1",
     "@peasy-lib/peasy-assets": "^0.2.6",
