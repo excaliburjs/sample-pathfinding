@@ -13,11 +13,11 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "@excaliburjs/excalibur-pathfinding": "^0.29.0-alpha.1",
+    "@excaliburjs/plugin-pathfinding": "^0.29.1",
     "@peasy-lib/peasy-assets": "^0.2.6",
     "@peasy-lib/peasy-input": "^0.2.0",
     "@peasy-lib/peasy-ui": "^0.9.58",
-    "excalibur": "^0.30.0-alpha.977"
+    "excalibur": "0.29.2"
   },
   "devDependencies": {
     "json": "^11.0.0",
