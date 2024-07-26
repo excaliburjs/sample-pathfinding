@@ -13,18 +13,20 @@ class Player extends Actor {
     this.graphics.use(Resources.plrImage.toSprite());
   }
 
+  public onInitialize(_engine: ex.Engine) {
+    // monitor player move completion from
+    // game events
+    game.events.on("playerMoveComplete", (nextTile: any) => {
+      // this updates the HUD with the next tile data
+      model.currentTileIndex = nextTile;
+      this.playerActionStatus = "idle";
+    });
+  }
+
   _postupdate(engine: Engine<any>, delta: number): void {
     if (this.playerActionBuffer.length > 0) {
       if (this.playerActionStatus == "idle") {
         this.playerActionStatus = "moving";
-
-        // monitor player move completion from
-        // game events
-        game.events.on("playerMoveComplete", () => {
-          // this updates the HUD with the next tile data
-          model.currentTileIndex = nextTile;
-          this.playerActionStatus = "idle";
-        });
 
         // get next tile off action buffer and moveTo
         const nextTile = this.playerActionBuffer.shift();
@@ -46,7 +48,7 @@ class Player extends Actor {
     //delay 500 ms and then emit event for end of move
     setTimeout(() => {
       model.movesRemaining--; // this updates HUD with moves remaining data
-      game.events.emit("playerMoveComplete");
+      game.events.emit('playerMoveComplete', node as number);
     }, 500);
   }
 }
