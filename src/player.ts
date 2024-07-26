@@ -48,7 +48,7 @@ class Player extends Actor {
     //delay 500 ms and then emit event for end of move
     setTimeout(() => {
       model.movesRemaining--; // this updates HUD with moves remaining data
-      game.events.emit('playerMoveComplete', node as number);
+      game.events.emit("playerMoveComplete", node as number);
     }, 500);
   }
 }
