@@ -5,7 +5,7 @@ import "./style.css";
 import { UI } from "@peasy-lib/peasy-ui";
 import { Engine, DisplayMode, TileMap, Vector, Loader } from "excalibur";
 import { ExcaliburAStar, ExcaliburGraph, GraphTileMap, aStarNode, GraphNode } from "@excaliburjs/plugin-pathfinding";
-import { Resources, rlSS } from "./resourcses";
+import {Resources, rlSS, TileSheet} from "./resourcses";
 import { Tree, tiles } from "./tiledata";
 import { player } from "./player";
 
@@ -164,15 +164,14 @@ const tilemap = new TileMap({
 let tileIndex = 0;
 for (let tile of tilemap.tiles) {
   // get sprite
-  const sprite = rlSS.getSprite(tiles[tileIndex].sprite[0], tiles[tileIndex].sprite[1]);
-  if (sprite) {
-    // all spots gets grass, then if tree, gets tree
-    tile.addGraphic(rlSS.getSprite(tiles[0].sprite[0], tiles[0].sprite[1]));
+  const sprite = TileSheet.getSprite(tiles[tileIndex].sprite[0], tiles[tileIndex].sprite[1]);
+    // if we're looking at a tree, make sure it also has ground below it
     if (tiles[tileIndex] instanceof Tree) {
-      tile.addGraphic(sprite);
-      tile.solid = true;
+        tile.addGraphic(TileSheet.getSprite(0,0));
+        tile.solid = true;
     }
-  }
+    // add the preferred tile to the tilemap
+    tile.addGraphic(sprite);
   tileIndex++;
 }
 
