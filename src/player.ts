@@ -1,6 +1,6 @@
 import { Actor, Vector, EasingFunctions, Engine } from "excalibur";
 import { game, model } from "./main";
-import { Resources } from "./resourcses";
+import {plrWalk, plrImage} from "./resourcses";
 
 // create and configure player, and his action buffer
 
@@ -10,33 +10,24 @@ class Player extends Actor {
 
   constructor(options: any) {
     super(options);
-    this.graphics.use(Resources.plrImage.toSprite());
-  }
-
-  public onInitialize(_engine: ex.Engine) {
-    // monitor player move completion from
-    // game events
-    game.events.on("playerMoveComplete", (nextTile: any) => {
-      // this updates the HUD with the next tile data
-      model.currentTileIndex = nextTile;
-      this.playerActionStatus = "idle";
-    });
+    this.graphics.use(plrWalk);
+    this.graphics.onPreDraw = (()=>{
+        if(this.playerActionBuffer.length>0 || this.actions.getQueue().hasNext()){
+            this.graphics.use(plrWalk);
+        }
+        else{
+            this.graphics.use(plrImage);
+        }
+    })
   }
 
   _postupdate(engine: Engine<any>, delta: number): void {
-    if (this.playerActionBuffer.length > 0) {
-      if (this.playerActionStatus == "idle") {
-        this.playerActionStatus = "moving";
-
+    if (this.playerActionBuffer.length > 0 && !this.actions.getQueue().hasNext()) {
         // get next tile off action buffer and moveTo
         const nextTile = this.playerActionBuffer.shift();
-
+        model.currentTileIndex = nextTile;
         this.moveToTile(nextTile);
       }
-    } else {
-      // action buffer empty, reset
-      this.playerActionStatus = "idle";
-    }
   }
   moveToTile(node: number) {
     //convert node, which is flat array index into x and y
@@ -44,12 +35,9 @@ class Player extends Actor {
     let y = Math.floor(node / 10);
     //get vector between player and tile
     let target = new Vector(x * 16 + 8, y * 16 + 8);
-    player.actions.easeTo(target, 500, EasingFunctions.EaseInOutCubic);
-    //delay 500 ms and then emit event for end of move
-    setTimeout(() => {
-      model.movesRemaining--; // this updates HUD with moves remaining data
-      game.events.emit("playerMoveComplete", node as number);
-    }, 500);
+    player.actions.easeTo(target, 400, EasingFunctions.EaseInOutCubic).callMethod(()=>{
+        model.movesRemaining--; // this updates HUD with moves remaining data
+    });
   }
 }
 
